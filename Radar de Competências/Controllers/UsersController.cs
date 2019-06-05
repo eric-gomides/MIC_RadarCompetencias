@@ -2,13 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Radar_de_Competências.Models;
+using Radar_de_Competências.Models.UsersViewModels;
 
 namespace Radar_de_Competências.Controllers
 {
     public class UsersController : Controller
     {
+        public UsersController(UserManager<ApplicationUser> user, SignInManager<ApplicationUser> signIn)
+        {
+            _signInManager = signIn;
+            _userManager = user;
+        }
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
         // GET: Users
         public ActionResult Index()
         {
@@ -22,26 +34,40 @@ namespace Radar_de_Competências.Controllers
         }
 
         // GET: Users/Create
-        public ActionResult Create()
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
-
         // POST: Users/Create
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
-            try
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                   //_logger.LogInformation("User created a new account with password.");
+                   //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                   //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                   //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
-                return RedirectToAction(nameof(Index));
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                   //_logger.LogInformation("User created a new account with password.");
+                    return RedirectToLocal(returnUrl);
+                }
+                //AddErrors(result);
             }
-            catch
-            {
-                return View();
-            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
 
         // GET: Users/Edit/5
@@ -87,6 +113,18 @@ namespace Radar_de_Competências.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
         }
     }
