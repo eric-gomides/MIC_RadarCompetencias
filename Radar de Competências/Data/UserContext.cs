@@ -29,7 +29,7 @@ namespace Radar_de_Competências.Data
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            //Nothing to dispose
         }
 
         public Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken)

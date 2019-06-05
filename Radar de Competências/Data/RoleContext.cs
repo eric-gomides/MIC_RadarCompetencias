@@ -22,7 +22,7 @@ namespace Radar_de_Competências.Data
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            //Nothing to dispose
         }
 
         public Task<ApplicationRole> FindByIdAsync(string roleId, CancellationToken cancellationToken)
