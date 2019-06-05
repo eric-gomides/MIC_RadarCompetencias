@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Radar_de_Competências.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Radar_de_Competências.Models;
 
 namespace Radar_de_Competências
 {
@@ -27,6 +28,14 @@ namespace Radar_de_Competências
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Adiciona classes de usuários e roles para o serviço de injeção de dependências.
+            services.AddTransient<IUserStore<ApplicationUser>, UserContext>();
+            services.AddTransient<IRoleStore<ApplicationRole>, RoleContext>();
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddDefaultTokenProviders();
+
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
