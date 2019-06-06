@@ -1,22 +1,32 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Radar_de_Competências.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.IO;
+using Dapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Radar_de_Competências.Models;
+
 
 namespace Radar_de_Competências.Data
 {
     public class UserContext : IUserStore<ApplicationUser>,IUserPasswordStore<ApplicationUser>
     {
+        private readonly string _connectionString;
+
+        public UserContext(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
         public async Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
             using(var stream = new StreamWriter(@"C:\Users\1078270.MICBH\source\repos\Radar de Competências\Radar de Competências\bin\Debug\netcoreapp2.1\fodas.txt"))
             {
-                await stream.WriteLineAsync($"Nome: {user.FullName}");
-                await stream.WriteLineAsync($"Email: {user.Email}");
+                await stream.WriteAsync($"Nome: {user.FullName};");
+                await stream.WriteAsync($"Email: {user.Email};");
                 await stream.WriteLineAsync($"ID: {user.Id}");
             }
             return IdentityResult.Success;
@@ -34,12 +44,19 @@ namespace Radar_de_Competências.Data
 
         public Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
-        public Task<ApplicationUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        public async Task<ApplicationUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync(cancellationToken);
+                return await connection.QuerySingleOrDefaultAsync<ApplicationUser>($@"SELECT * FROM [ApplicationUser]
+                    WHERE [NormalizedUserName] = @{nameof(normalizedUserName)}", new { normalizedUserName });
+            }
         }
 
         public Task<string> GetNormalizedUserNameAsync(ApplicationUser user, CancellationToken cancellationToken)
