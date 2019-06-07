@@ -12,6 +12,9 @@ namespace Radar_de_Competências.Models
 
         public string Email { get; set; }
 
-        public string FullName { get; set; }
+        public string UserName { get; set; }
+
+        public string PasswordHash { get; set; }
+
     }
 }

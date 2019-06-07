@@ -23,12 +23,16 @@ namespace Radar_de_Competências.Data
         }
         public async Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
-            using(var stream = new StreamWriter(@"C:\Users\1078270.MICBH\source\repos\Radar de Competências\Radar de Competências\bin\Debug\netcoreapp2.1\fodas.txt"))
+            cancellationToken.ThrowIfCancellationRequested();
+
+            using (var connection = new SqlConnection(_connectionString))
             {
-                await stream.WriteAsync($"Nome: {user.FullName};");
-                await stream.WriteAsync($"Email: {user.Email};");
-                await stream.WriteLineAsync($"ID: {user.Id}");
+                await connection.OpenAsync(cancellationToken);
+                user.Id = await connection.QuerySingleAsync<int>($@"INSERT INTO [ApplicationUser] ([UserName], [Email], [PasswordHash])
+                    VALUES (@{nameof(ApplicationUser.UserName)},  @{nameof(ApplicationUser.Email)}, @{nameof(ApplicationUser.PasswordHash)});
+                    SELECT CAST(SCOPE_IDENTITY() as int)", user);
             }
+
             return IdentityResult.Success;
         }
 
@@ -42,9 +46,16 @@ namespace Radar_de_Competências.Data
             //Nothing to dispose
         }
 
-        public Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        public async Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            return null;
+            cancellationToken.ThrowIfCancellationRequested();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync(cancellationToken);
+                return await connection.QuerySingleOrDefaultAsync<ApplicationUser>($@"SELECT * FROM [ApplicationUser]
+                    WHERE [Id] = @{nameof(userId)}", new { userId });
+            }
         }
 
         public async Task<ApplicationUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
