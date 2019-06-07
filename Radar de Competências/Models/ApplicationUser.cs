@@ -14,6 +14,7 @@ namespace Radar_de_Competências.Models
 
         public string UserName { get; set; }
 
+        public string NormalizedUserName { get; set; }
         public string PasswordHash { get; set; }
 
     }

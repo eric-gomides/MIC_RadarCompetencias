@@ -72,7 +72,7 @@ namespace Radar_de_Competências.Data
 
         public Task<string> GetNormalizedUserNameAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(user.NormalizedUserName);
         }
 
         public Task<string> GetPasswordHashAsync(ApplicationUser user, CancellationToken cancellationToken)
@@ -97,7 +97,8 @@ namespace Radar_de_Competências.Data
 
         public Task SetNormalizedUserNameAsync(ApplicationUser user, string normalizedName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            user.NormalizedUserName = normalizedName;
+            return Task.FromResult(0);
         }
 
         public Task SetPasswordHashAsync(ApplicationUser user, string passwordHash, CancellationToken cancellationToken)

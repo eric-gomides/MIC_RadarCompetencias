@@ -21,6 +21,7 @@ namespace Radar_de_Competências.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
+
         // GET: Users
         public ActionResult Index()
         {
@@ -50,6 +51,7 @@ namespace Radar_de_Competências.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
