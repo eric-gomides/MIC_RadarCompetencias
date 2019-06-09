@@ -37,6 +37,62 @@ namespace Radar_de_Competências.Controllers
         [TempData]
         public string ErrorMessage { get; set; }
 
+        #region Users "CRUD"
+
+        // GET: Users
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        // GET: Users/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+        
+        #region Create
+        // GET: Users/Create
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+
+        // POST: Users/Create
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                   //_logger.LogInformation("User created a new account with password.");
+                   //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                   //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                   //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                   //_logger.LogInformation("User created a new account with password.");
+                    return RedirectToLocal(returnUrl);
+                }
+                //AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+        #endregion
+
+        #region Read
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
@@ -83,58 +139,9 @@ namespace Radar_de_Competências.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        #endregion
 
-        // GET: Users
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: Users/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Users/Create
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
-        }
-
-        // POST: Users/Create
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
-            {
-
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                   //_logger.LogInformation("User created a new account with password.");
-                   //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                   //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                   //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                   //_logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
-                }
-                //AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
-
+        #region Update
         // GET: Users/Edit/5
         public ActionResult Edit(int id)
         {
@@ -157,7 +164,9 @@ namespace Radar_de_Competências.Controllers
                 return View();
             }
         }
+        #endregion
 
+        #region Delete
         // GET: Users/Delete/5
         public ActionResult Delete(int id)
         {
@@ -180,6 +189,9 @@ namespace Radar_de_Competências.Controllers
                 return View();
             }
         }
+        #endregion
+
+        #endregion
 
         private IActionResult RedirectToLocal(string returnUrl)
         {

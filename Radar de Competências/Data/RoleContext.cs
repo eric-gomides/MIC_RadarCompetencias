@@ -57,7 +57,8 @@ namespace Radar_de_Competências.Data
 
         public Task SetRoleNameAsync(ApplicationRole role, string roleName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            role.RoleName = roleName;
+            return Task.FromResult(0);
         }
 
         public Task<IdentityResult> UpdateAsync(ApplicationRole role, CancellationToken cancellationToken)
