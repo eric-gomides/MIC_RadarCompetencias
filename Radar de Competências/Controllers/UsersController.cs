@@ -15,11 +15,11 @@ namespace Radar_de_Competências.Controllers
 {
     public class UsersController : Controller
     {
-        public UsersController(UserManager<ApplicationUser> user, SignInManager<ApplicationUser> signIn)
-        {
-            _signInManager = signIn;
-            _userManager = user;
-        }
+        //public UsersController(UserManager<ApplicationUser> user, SignInManager<ApplicationUser> signIn)
+        //{
+        //    _signInManager = signIn;
+        //    _userManager = user;
+        //}
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
