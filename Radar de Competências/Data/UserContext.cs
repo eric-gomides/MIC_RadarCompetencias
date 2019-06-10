@@ -77,7 +77,7 @@ namespace Radar_de_Competências.Data
 
         public Task<string> GetPasswordHashAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(user.PasswordHash);
         }
 
         public Task<string> GetUserIdAsync(ApplicationUser user, CancellationToken cancellationToken)
