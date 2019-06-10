@@ -8,8 +8,10 @@ namespace Radar_de_Competências.Models.UsersViewModels
 {
     public class RegisterViewModel
     {
-        //[Display(Name = "Name")]
-        //public string Name { get; set; }
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
 
         [Required]
         [EmailAddress]
