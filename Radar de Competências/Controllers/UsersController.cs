@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Radar_de_Competências.Data;
 using Radar_de_Competências.Models;
 using Radar_de_Competências.Models.UsersViewModels;
 
@@ -23,15 +25,21 @@ namespace Radar_de_Competências.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly UserContext _userContext;
 
         public UsersController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<UsersController> logger)
+            RoleManager<ApplicationRole> roleManager,
+            ILogger<UsersController> logger, 
+            UserContext userContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _logger = logger;
+            _userContext = userContext;
         }
 
         [TempData]
@@ -50,7 +58,7 @@ namespace Radar_de_Competências.Controllers
         {
             return View();
         }
-        
+
         #region Create
         // GET: Users/Create
         [HttpGet]
@@ -65,23 +73,24 @@ namespace Radar_de_Competências.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Register(RegisterViewModel model, ApplicationRole role, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                role.RoleID = 1;
+                var result2 = await _roleManager.CreateAsync(role);
+                if (result.Succeeded && result2.Succeeded)
                 {
-                   //_logger.LogInformation("User created a new account with password.");
-                   //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                   //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                   //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    _logger.LogInformation("User created a new account with password.");
+                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                    //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                   //_logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
                 //AddErrors(result);
@@ -93,6 +102,11 @@ namespace Radar_de_Competências.Controllers
         #endregion
 
         #region Read
+        public async Task<IActionResult> List()
+        {
+            return View( (_userContext.GetAll()));
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
@@ -129,7 +143,8 @@ namespace Radar_de_Competências.Controllers
                 //    _logger.LogWarning("User account locked out.");
                 //    return RedirectToAction(nameof(Lockout));
                 //}
-                else{
+                else
+                {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return View(model);
                 }

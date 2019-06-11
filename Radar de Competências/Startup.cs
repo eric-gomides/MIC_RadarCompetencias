@@ -31,6 +31,7 @@ namespace Radar_de_Competências
             //Adiciona classes de usuários e roles para o serviço de injeção de dependências.
             services.AddTransient<IUserStore<ApplicationUser>, UserContext>();
             services.AddTransient<IRoleStore<ApplicationRole>, RoleContext>();
+            services.AddSingleton<UserContext>();
 
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddDefaultTokenProviders();

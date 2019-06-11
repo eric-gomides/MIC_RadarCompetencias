@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 namespace Radar_de_Competências.Models
 {
     public class ApplicationRole
-{
-        public int Id { get; set; }
-        public string RoleName { get; set; }
+    {
+        public int UserId { get; set; }
+        public int RoleID { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols;
 using Radar_de_Competências.Models;
 
 
@@ -88,6 +90,18 @@ namespace Radar_de_Competências.Data
         public Task<string> GetUserNameAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
             return Task.FromResult(user.UserName);
+        }
+
+        public IEnumerable<ApplicationUser> GetAll()
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                if (db.State == ConnectionState.Closed)
+                {
+                    db.Open();
+                }
+                return (IEnumerable<ApplicationUser>) db.Query<ApplicationUser>("Select * from [ApplicationUser]", commandType: CommandType.Text);
+            }
         }
 
         public Task<bool> HasPasswordAsync(ApplicationUser user, CancellationToken cancellationToken)
