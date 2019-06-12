@@ -1,5 +1,6 @@
 @using Microsoft.AspNetCore.Identity
 
+
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -11,6 +12,9 @@
                 <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
             </li>
             <li>
+                <a asp-area="" asp-controller="Users" asp-action="List">Listar</a>
+            </li>
+            <li>
                 <a asp-area="" asp-controller="Users" asp-action="Logout">Sair</a>
             </li>
         </ul>
@@ -18,8 +22,8 @@
 }
 else
 {
-<ul class="nav navbar-nav navbar-right">
-    <li><a asp-area="" asp-controller="Users" asp-action="Register">Cadastrar</a></li>
-    <li><a asp-area="" asp-controller="Users" asp-action="Login">Logar</a></li>
-</ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-area="" asp-controller="Users" asp-action="Register">Cadastrar</a></li>
+        <li><a asp-area="" asp-controller="Users" asp-action="Login">Logar</a></li>
+    </ul>
 }

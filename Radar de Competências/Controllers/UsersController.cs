@@ -102,6 +102,7 @@ namespace Radar_de_Competências.Controllers
         }
         #endregion
 
+        [Authorize]
         #region Read
         public async Task<IActionResult> List()
         {
