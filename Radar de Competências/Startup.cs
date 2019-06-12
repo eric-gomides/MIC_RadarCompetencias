@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Radar_de_Competências.Models;
 
+
 namespace Radar_de_Competências
 {
     public class Startup
@@ -23,6 +24,8 @@ namespace Radar_de_Competências
             Configuration = configuration;
         }
 
+
+      
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -50,6 +53,7 @@ namespace Radar_de_Competências
             //services.AddDefaultIdentity<IdentityUser>()
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            //services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             //Alteração nos requerimentos de senha 
@@ -97,7 +101,7 @@ namespace Radar_de_Competências
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Users}/{action=Login}/{id?}");
             });
         }
     }

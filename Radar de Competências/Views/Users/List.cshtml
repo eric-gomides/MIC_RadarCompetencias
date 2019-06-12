@@ -1,19 +1,19 @@
 ﻿@using System.Collections.Generic;
-@using Microsoft.AspNetCore.Identity
-@using Models.UsersViewModels;
 
 @namespace Radar_de_Competências
-
 @model IEnumerable<ApplicationUser>
 
     @{
-        ViewData["Title"] = "Index";
+        ViewData["Title"] = "Usuários Cadastrados";
     }
 
 <h1>Users</h1>
     <table class="table">
         <thead>
             <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
                 <th>
                     @Html.DisplayNameFor(model => model.UserName)
                 </th>
@@ -25,19 +25,17 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    @*<td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>*@
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+            </tr>
             }
         </tbody>
     </table>

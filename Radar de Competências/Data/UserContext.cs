@@ -30,8 +30,8 @@ namespace Radar_de_Competências.Data
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync(cancellationToken);
-                user.Id = await connection.QuerySingleAsync<int>($@"INSERT INTO [ApplicationUser] ([UserName], [Email], [NormalizedUserName], [PasswordHash])
-                    VALUES (@{nameof(ApplicationUser.UserName)}, @{nameof(ApplicationUser.NormalizedUserName)}, @{nameof(ApplicationUser.Email)}, @{nameof(ApplicationUser.PasswordHash)});
+                user.Id = await connection.QuerySingleAsync<int>($@"INSERT INTO [ApplicationUser] ([UserName], [Email], [Name], [NormalizedUserName], [PasswordHash])
+                    VALUES (@{nameof(ApplicationUser.UserName)}, @{nameof(ApplicationUser.Email)}, @{nameof(ApplicationUser.Name)}, @{nameof(ApplicationUser.NormalizedUserName)}, @{nameof(ApplicationUser.PasswordHash)});
                     SELECT CAST(SCOPE_IDENTITY() as int)", user);
             }
 

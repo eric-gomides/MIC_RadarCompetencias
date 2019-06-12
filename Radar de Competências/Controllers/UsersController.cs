@@ -17,11 +17,6 @@ namespace Radar_de_Competências.Controllers
 {
     public class UsersController : Controller
     {
-        //public UsersController(UserManager<ApplicationUser> user, SignInManager<ApplicationUser> signIn)
-        //{
-        //    _signInManager = signIn;
-        //    _userManager = user;
-        //}
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
@@ -47,20 +42,19 @@ namespace Radar_de_Competências.Controllers
 
         #region Users "CRUD"
 
-        // GET: Users
+
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: Users/Details/5
+
         public ActionResult Details(int id)
         {
             return View();
         }
-
         #region Create
-        // GET: Users/Create
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
@@ -69,7 +63,6 @@ namespace Radar_de_Competências.Controllers
             return View();
         }
 
-        // POST: Users/Create
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -78,7 +71,7 @@ namespace Radar_de_Competências.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 role.RoleID = 1;
                 //var result2 = await _roleManager.CreateAsync(role);
@@ -160,7 +153,7 @@ namespace Radar_de_Competências.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(UsersController.Login), "Users");
         }
         #endregion
 
@@ -171,7 +164,7 @@ namespace Radar_de_Competências.Controllers
             return View();
         }
 
-        // POST: Users/Edit/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -190,13 +183,13 @@ namespace Radar_de_Competências.Controllers
         #endregion
 
         #region Delete
-        // GET: Users/Delete/5
+
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Users/Delete/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
@@ -224,7 +217,7 @@ namespace Radar_de_Competências.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(UsersController.List), "Users");
             }
         }
     }
