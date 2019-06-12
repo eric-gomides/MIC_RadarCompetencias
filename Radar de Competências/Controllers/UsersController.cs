@@ -81,8 +81,9 @@ namespace Radar_de_Competências.Controllers
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 role.RoleID = 1;
-                var result2 = await _roleManager.CreateAsync(role);
-                if (result.Succeeded && result2.Succeeded)
+                //var result2 = await _roleManager.CreateAsync(role);
+                
+                if (result.Succeeded /*&& result2.Succeeded*/)
                 {
                     _logger.LogInformation("User created a new account with password.");
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
