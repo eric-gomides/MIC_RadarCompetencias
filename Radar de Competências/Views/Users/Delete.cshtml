@@ -4,16 +4,16 @@
     <h4>Excluir usuário</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Id)
-        </dt>
+        </dt>*@
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt>5
+        <dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
         <dd>
@@ -21,7 +21,7 @@
         </dd>
     </dl>
 
-    <form asp-action="Delete" asp-route-id="@Model.Id">
+    <form asp-action="Delete"> @*asp-route-id="@Model.Id">*@
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="List">Voltar para a lista</a>
     </form>
