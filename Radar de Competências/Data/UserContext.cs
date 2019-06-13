@@ -102,15 +102,15 @@ namespace Radar_de_Competências.Data
             return Task.FromResult(user.UserName);
         }
 
-        public IEnumerable<ApplicationUser> GetAll()
+        public async Task<IEnumerable<ApplicationUser>> GetAllAsync()
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 if (db.State == ConnectionState.Closed)
                 {
-                    db.Open();
+                    await db.OpenAsync();
                 }
-                return (IEnumerable<ApplicationUser>) db.Query<ApplicationUser>("Select * from [ApplicationUser]", commandType: CommandType.Text);
+                return await db.QueryAsync<ApplicationUser>("Select * from [ApplicationUser]", commandType: CommandType.Text);
             }
         }
 

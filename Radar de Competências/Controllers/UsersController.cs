@@ -94,7 +94,7 @@ namespace Radar_de_Competências.Controllers
         #region Read
         public async Task<IActionResult> List()
         {
-            return View( (_userContext.GetAll()));
+            return View( (await _userContext.GetAllAsync()));
         }
 
         [HttpGet]
@@ -136,9 +136,9 @@ namespace Radar_de_Competências.Controllers
         }
 
         
-        public async Task<IActionResult> Logout()
+        public ActionResult Logout()
         {
-            await _signInManager.SignOutAsync();
+             _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
             return RedirectToAction(nameof(UsersController.Login), "Users");
         }
@@ -159,6 +159,7 @@ namespace Radar_de_Competências.Controllers
             {
                 // TODO: Add update logic here
 
+
                 return RedirectToAction(nameof(List));
             }
             catch
@@ -178,11 +179,12 @@ namespace Radar_de_Competências.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                var user = await _userManager.FindByIdAsync(id.ToString());
+                await _userManager.DeleteAsync(user);
 
                 return RedirectToAction(nameof(List));
             }
