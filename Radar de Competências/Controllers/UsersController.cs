@@ -74,20 +74,15 @@ namespace Radar_de_Competências.Controllers
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 role.RoleID = 1;
-                //var result2 = await _roleManager.CreateAsync(role);
                 
-                if (result.Succeeded /*&& result2.Succeeded*/)
+                if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
-                //AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
@@ -129,15 +124,6 @@ namespace Radar_de_Competências.Controllers
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
-                //if (result.RequiresTwoFactor)
-                //{
-                //    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
-                //}
-                //if (result.IsLockedOut)
-                //{
-                //    _logger.LogWarning("User account locked out.");
-                //    return RedirectToAction(nameof(Lockout));
-                //}
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
@@ -149,6 +135,7 @@ namespace Radar_de_Competências.Controllers
             return View(model);
         }
 
+        
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -158,7 +145,6 @@ namespace Radar_de_Competências.Controllers
         #endregion
 
         #region Update
-        // GET: Users/Edit/5
         public ActionResult Edit(int id)
         {
             return View();

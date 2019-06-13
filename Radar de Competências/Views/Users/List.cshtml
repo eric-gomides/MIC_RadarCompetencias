@@ -7,7 +7,7 @@
         ViewData["Title"] = "Usuários Cadastrados";
     }
 
-<h1>Users</h1>
+<h1>Usuários Cadastrados</h1>
     <table class="table">
         <thead>
             <tr>
@@ -35,6 +35,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
+                @*
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.UserName }) |
+                    @Html.ActionLink("Deletar", "Delete", new { id = item.UserName })
+                </td>
+                *@
             </tr>
             }
         </tbody>
