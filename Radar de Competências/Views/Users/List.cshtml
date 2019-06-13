@@ -1,0 +1,47 @@
+﻿@using System.Collections.Generic;
+
+@namespace Radar_de_Competências
+@model IEnumerable<ApplicationUser>
+
+    @{
+        ViewData["Title"] = "Usuários Cadastrados";
+    }
+
+<h1>Usuários Cadastrados</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.UserName }) |
+                    @Html.ActionLink("Deletar", "Delete", new { id = item.UserName })
+                </td>
+                
+            </tr>
+            }
+        </tbody>
+    </table>

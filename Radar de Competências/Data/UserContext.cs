@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
@@ -28,18 +27,25 @@ namespace Radar_de_Competências.Data
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync(cancellationToken);
-                user.Id = await connection.QuerySingleAsync<int>($@"INSERT INTO [ApplicationUser] ([UserName], [NormalizedUserName], [Email], [NormalizedEmail], [PasswordHash])
-                    VALUES (@{nameof(ApplicationUser.UserName)}, @{nameof(ApplicationUser.NormalizedUserName)}, @{nameof(ApplicationUser.Email)},
-                    @{nameof(ApplicationUser.NormalizedEmail)}, @{nameof(ApplicationUser.PasswordHash)});
+                user.Id = await connection.QuerySingleAsync<int>($@"INSERT INTO [ApplicationUser] ([UserName], [Email], [Name], [NormalizedUserName], [PasswordHash])
+                    VALUES (@{nameof(ApplicationUser.UserName)}, @{nameof(ApplicationUser.Email)}, @{nameof(ApplicationUser.Name)}, @{nameof(ApplicationUser.NormalizedUserName)}, @{nameof(ApplicationUser.PasswordHash)});
                     SELECT CAST(SCOPE_IDENTITY() as int)", user);
             }
 
             return IdentityResult.Success;
         }
 
-        public Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync(cancellationToken);
+                await connection.ExecuteAsync($"DELETE FROM [ApplicationUser] WHERE [Id] = @{nameof(ApplicationUser.Id)}", user);
+            }
+
+            return IdentityResult.Success;
         }
 
         public void Dispose()
@@ -76,6 +82,11 @@ namespace Radar_de_Competências.Data
             return Task.FromResult(user.NormalizedUserName);
         }
 
+        public Task<string> GetNameAsync(ApplicationUser user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.Name);
+        }
+
         public Task<string> GetPasswordHashAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
             return Task.FromResult(user.PasswordHash);
@@ -89,6 +100,18 @@ namespace Radar_de_Competências.Data
         public Task<string> GetUserNameAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
             return Task.FromResult(user.UserName);
+        }
+
+        public async Task<IEnumerable<ApplicationUser>> GetAllAsync()
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                if (db.State == ConnectionState.Closed)
+                {
+                    await db.OpenAsync();
+                }
+                return await db.QueryAsync<ApplicationUser>("Select * from [ApplicationUser]", commandType: CommandType.Text);
+            }
         }
 
         public Task<bool> HasPasswordAsync(ApplicationUser user, CancellationToken cancellationToken)

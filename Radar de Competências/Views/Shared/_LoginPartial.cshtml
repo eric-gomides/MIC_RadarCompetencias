@@ -1,14 +1,18 @@
 @using Microsoft.AspNetCore.Identity
 
+
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
+    <form asp-area="Identity" asp-page="/Users/Logout" asp-route-returnUrl="@Url.Action("Login", "Users", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                <a asp-area="" asp-page="/Users/List" title="Manage">Bem vindo, @UserManager.GetUserName(User)!</a> 
+            </li>
+            <li>
+                <a asp-area="" asp-controller="Users" asp-action="List">Listar</a>
             </li>
             <li>
                 <a asp-area="" asp-controller="Users" asp-action="Logout">Sair</a>
@@ -18,8 +22,8 @@
 }
 else
 {
-<ul class="nav navbar-nav navbar-right">
-    <li><a asp-area="" asp-controller="Users" asp-action="Register">Cadastrar</a></li>
-    <li><a asp-area="" asp-controller="Users" asp-action="Login">Logar</a></li>
-</ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-area="" asp-controller="Users" asp-action="Register">Cadastrar</a></li>
+        <li><a asp-area="" asp-controller="Users" asp-action="Login">Entrar</a></li>
+    </ul>
 }
