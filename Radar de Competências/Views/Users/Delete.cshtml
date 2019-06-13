@@ -5,12 +5,15 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt>
+        <dt>5
             @Html.DisplayNameFor(model => model.Email)
         </dt>
         <dd>
@@ -18,7 +21,7 @@
         </dd>
     </dl>
 
-    <form asp-action="Delete">
+    <form asp-action="Delete" asp-route-id="@Model.Id">
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="List">Voltar para a lista</a>
     </form>
