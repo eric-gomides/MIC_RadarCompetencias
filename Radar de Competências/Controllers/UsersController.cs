@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Radar_de_Competências.Data;
-using Radar_de_Competências.Models;
-using Radar_de_Competências.Models.UsersViewModels;
+using RadarCompetencias.Data;
+using RadarCompetencias.Models;
+using RadarCompetencias.Models.UsersViewModels;
 
-namespace Radar_de_Competências.Controllers
+namespace RadarCompetencias.Controllers
 {
     public class UsersController : Controller
     {
@@ -77,15 +77,14 @@ namespace Radar_de_Competências.Controllers
                 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("Usuário criou uma nova conta.");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("Usuário criou uma nova conta.");
                     return RedirectToLocal(returnUrl);
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
         #endregion
@@ -121,17 +120,16 @@ namespace Radar_de_Competências.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation("Usuário logado.");
                     return RedirectToLocal(returnUrl);
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
                     return View(model);
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
@@ -139,7 +137,7 @@ namespace Radar_de_Competências.Controllers
         public ActionResult Logout()
         {
              _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
+            _logger.LogInformation("Usuário desconectado.");
             return RedirectToAction(nameof(UsersController.Login), "Users");
         }
         #endregion
@@ -157,7 +155,7 @@ namespace Radar_de_Competências.Controllers
         {
             try
             {
-                // TODO: Add update logic here
+                //Implementar lógica de edição.
 
 
                 return RedirectToAction(nameof(List));

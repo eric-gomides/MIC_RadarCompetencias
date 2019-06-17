@@ -1,4 +1,4 @@
-﻿namespace Radar_de_Competências.Models.UsersViewModels
+﻿namespace RadarCompetencias.Models.UsersViewModels
 {
     public class DeleteViewModel
     {

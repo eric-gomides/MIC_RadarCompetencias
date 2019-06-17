@@ -1,6 +1,6 @@
 using System;
 
-namespace Radar_de_Competências.Models
+namespace RadarCompetencias.Models
 {
     public class ErrorViewModel
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Radar_de_Competências.Models
+namespace RadarCompetencias.Models
 {
     public class ApplicationRole
     {

@@ -1,13 +1,13 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Radar_de_Competências.Models;
+using RadarCompetencias.Models;
 using System;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Radar_de_Competências.Data
+namespace RadarCompetencias.Data
 {
     public class RoleContext : IRoleStore<ApplicationRole>
     {

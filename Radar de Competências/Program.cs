@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Radar_de_Competências
+namespace RadarCompetencias
 {
     public class Program
     {

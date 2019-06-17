@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <UserSecretsId>aspnet-Radar_de_Competências-68C25605-F43A-411C-8D83-FB55554E08BB</UserSecretsId>
+    <UserSecretsId>aspnet-RadarCompetencias-68C25605-F43A-411C-8D83-FB55554E08BB</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

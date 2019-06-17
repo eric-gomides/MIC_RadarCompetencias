@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Radar_de_Competências.Models;
+using RadarCompetencias.Models;
 
 
-namespace Radar_de_Competências.Data
+namespace RadarCompetencias.Data
 {
     public class UserContext : IUserStore<ApplicationUser>,IUserPasswordStore<ApplicationUser>
     {

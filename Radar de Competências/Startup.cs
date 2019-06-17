@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Radar_de_Competências.Data;
+using RadarCompetencias.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Radar_de_Competências.Models;
+using RadarCompetencias.Models;
 
 
-namespace Radar_de_Competências
+namespace RadarCompetencias
 {
     public class Startup
     {
@@ -21,7 +21,6 @@ namespace Radar_de_Competências
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             //Adiciona classes de usuários e roles para o serviço de injeção de dependências.
@@ -35,7 +34,6 @@ namespace Radar_de_Competências
 
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -63,7 +61,6 @@ namespace Radar_de_Competências
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

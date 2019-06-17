@@ -1,12 +1,9 @@
-﻿@model Radar_de_Competências.Models.UsersViewModels.DeleteViewModel
+﻿@model RadarCompetencias.Models.UsersViewModels.DeleteViewModel
 <h3>Deseja deletar esse usuário?</h3>
 <div>
     <h4>Excluir usuário</h4>
     <hr />
     <dl class="dl-horizontal">
-        @*<dt>
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>*@
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -21,7 +18,7 @@
         </dd>
     </dl>
 
-    <form asp-action="Delete"> @*asp-route-id="@Model.Id">*@
+    <form asp-action="Delete">
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="List">Voltar para a lista</a>
     </form>
