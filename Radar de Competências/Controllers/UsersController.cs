@@ -72,10 +72,14 @@ namespace RadarCompetencias.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name };
+                //Criação do usuário
                 var result = await _userManager.CreateAsync(user, model.Password);
+
+                //Adicionando usuário criado a role de usuário
+                var result2 = await _userManager.AddToRoleAsync(user, "user");
                 role.RoleID = 1;
-                
-                if (result.Succeeded)
+
+                if (result.Succeeded && result2.Succeeded)
                 {
                     _logger.LogInformation("Usuário criou uma nova conta.");
 
@@ -89,11 +93,27 @@ namespace RadarCompetencias.Controllers
         }
         #endregion
 
-        [Authorize]
         #region Read
+        [Authorize]
         public async Task<IActionResult> List()
         {
-            return View( (await _userContext.GetAllAsync()));
+            var users = (await _userContext.GetAllAsync());
+            var viewModel = new List<ListViewModel>();
+
+            foreach (var user in users)
+            {
+                var role = await _userContext.GetRolesAsync(user, CancellationToken.None);
+
+                await Task.Run(() => viewModel.Add(new ListViewModel
+                {
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    Name = user.Name,
+                    Role = role.SingleOrDefault()
+                }));
+            }
+
+            return View(viewModel);
         }
 
         [HttpGet]
