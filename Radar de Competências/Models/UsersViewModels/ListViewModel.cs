@@ -11,5 +11,6 @@ namespace RadarCompetencias.Models.UsersViewModels
         public string Role { get; set; }
         [Display(Name = "Nome do usuário")]
         public string UserName { get; set; }
+        public int Id { get; set; }
     }
 }

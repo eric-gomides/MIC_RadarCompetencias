@@ -109,7 +109,8 @@ namespace RadarCompetencias.Controllers
                     Email = user.Email,
                     UserName = user.UserName,
                     Name = user.Name,
-                    Role = role.SingleOrDefault()
+                    Role = role.SingleOrDefault(),
+                    Id = user.Id
                 }));
             }
 
@@ -164,9 +165,16 @@ namespace RadarCompetencias.Controllers
 
         #region Update
         [Authorize(Roles = "admin")]
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(string id)
         {
-            return View();
+            var user = await _userManager.FindByIdAsync(id);
+
+            return View(
+                new EditViewModel
+                {
+                    Email = user.Email,
+                    Name = user.Name
+                });
         }
 
 
@@ -192,9 +200,16 @@ namespace RadarCompetencias.Controllers
         #region Delete
 
         [Authorize(Roles = "admin")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(string id)
         {
-            return View();
+            var user = await _userManager.FindByIdAsync(id);
+
+            return View(
+                new DeleteViewModel
+                {
+                    Email = user.Email,
+                    Name = user.Name
+                });
         }
 
 

@@ -45,8 +45,8 @@
             @if (User.IsInRole("admin"))
             {
                 <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.UserName }) |
-                    @Html.ActionLink("Deletar", "Delete", new { id = item.UserName })
+                    @Html.ActionLink(linkText:"Editar", actionName:"Edit", routeValues:new {id = item.Id }) | 
+                    @Html.ActionLink("Deletar", "Delete", new { id = item.Id })
                 </td>
             }
         </tr>
