@@ -163,6 +163,7 @@ namespace RadarCompetencias.Controllers
         #endregion
 
         #region Update
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int id)
         {
             return View();
@@ -170,6 +171,7 @@ namespace RadarCompetencias.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
         {
@@ -189,6 +191,7 @@ namespace RadarCompetencias.Controllers
 
         #region Delete
 
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int id)
         {
             return View();
@@ -196,6 +199,7 @@ namespace RadarCompetencias.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
