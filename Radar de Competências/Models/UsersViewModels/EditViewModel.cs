@@ -5,7 +5,7 @@ namespace RadarCompetencias.Models.UsersViewModels
     public class EditViewModel
     {
 
-        [Display(Name = "Name")]
+        [Display(Name = "Nome")]
         public string Name { get; set; }
 
         [EmailAddress]
