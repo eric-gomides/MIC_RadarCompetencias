@@ -102,7 +102,7 @@ namespace RadarCompetencias.Controllers
 
             foreach (var user in users)
             {
-                var role = await _userContext.GetRolesAsync(user, CancellationToken.None);
+                var role = await _userManager.GetRolesAsync(user);
 
                 await Task.Run(() => viewModel.Add(new ListViewModel
                 {
