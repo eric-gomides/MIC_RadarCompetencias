@@ -172,6 +172,7 @@ namespace RadarCompetencias.Controllers
             return View(
                 new EditViewModel
                 {
+                    Id = id,
                     Email = user.Email,
                     Name = user.Name
                 });
@@ -181,12 +182,18 @@ namespace RadarCompetencias.Controllers
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(EditViewModel userEdited, IFormCollection collection)
         {
             try
             {
-                //Implementar lógica de edição.
+                var user = await _userManager.FindByIdAsync(userEdited.Id);
 
+                user.Email = userEdited.Email;
+                user.Name = userEdited.Name;
+                user.NormalizedEmail = _userManager.NormalizeKey(userEdited.Email);
+                user.NormalizedUserName = _userManager.NormalizeKey(userEdited.Name);
+
+                await _userManager.UpdateAsync(user);
 
                 return RedirectToAction(nameof(List));
             }
