@@ -27,7 +27,7 @@ namespace RadarCompetencias.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<ApplicationRole> roleManager,
-            ILogger<UsersController> logger, 
+            ILogger<UsersController> logger,
             UserContext userContext)
         {
             _userManager = userManager;
@@ -71,7 +71,13 @@ namespace RadarCompetencias.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name };
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    Name = model.Name,
+                    NormalizedEmail = model.Email.Trim().ToUpper()
+                };
                 //Criação do usuário
                 var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -154,10 +160,10 @@ namespace RadarCompetencias.Controllers
             return View(model);
         }
 
-        
+
         public ActionResult Logout()
         {
-             _signInManager.SignOutAsync();
+            _signInManager.SignOutAsync();
             _logger.LogInformation("Usuário desconectado.");
             return RedirectToAction(nameof(UsersController.Login), "Users");
         }

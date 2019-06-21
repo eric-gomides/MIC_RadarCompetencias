@@ -13,7 +13,7 @@ using RadarCompetencias.Models;
 
 namespace RadarCompetencias.Data
 {
-    public class UserContext : IUserStore<ApplicationUser>,IUserPasswordStore<ApplicationUser>, IUserRoleStore<ApplicationUser>
+    public class UserContext : IUserStore<ApplicationUser>, IUserPasswordStore<ApplicationUser>, IUserRoleStore<ApplicationUser>
     {
         private readonly string _connectionString;
 
@@ -29,10 +29,10 @@ namespace RadarCompetencias.Data
             {
                 await connection.OpenAsync(cancellationToken);
                 user.Id = await connection.QuerySingleAsync<int>($@"INSERT INTO [ApplicationUser] ([UserName], [Email], [Name], 
-                                                                                          [NormalizedUserName], [PasswordHash])
-                    VALUES (@{nameof(ApplicationUser.UserName)}, @{nameof(ApplicationUser.Email)}, @{nameof(ApplicationUser.Name)},
-                            @{nameof(ApplicationUser.NormalizedUserName)}, @{nameof(ApplicationUser.PasswordHash)});
-                    SELECT CAST(SCOPE_IDENTITY() as int)", user);
+                                                                        [NormalizedUserName], [NormalizedEmail], [PasswordHash])
+                 VALUES (@{nameof(ApplicationUser.UserName)}, @{nameof(ApplicationUser.Email)}, @{nameof(ApplicationUser.Name)},
+                 @{nameof(ApplicationUser.NormalizedUserName)}, @{nameof(ApplicationUser.NormalizedEmail)}, @{nameof(ApplicationUser.PasswordHash)});
+                 SELECT CAST(SCOPE_IDENTITY() as int)", user);
             }
 
             return IdentityResult.Success;
@@ -45,6 +45,7 @@ namespace RadarCompetencias.Data
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync(cancellationToken);
+                await connection.ExecuteAsync($"DELETE FROM [ApplicationUserRole] WHERE [UserId] = @{nameof(ApplicationUser.Id)}", user);
                 await connection.ExecuteAsync($"DELETE FROM [ApplicationUser] WHERE [Id] = @{nameof(ApplicationUser.Id)}", user);
             }
 
@@ -149,6 +150,7 @@ namespace RadarCompetencias.Data
                 await connection.OpenAsync(cancellationToken);
                 await connection.ExecuteAsync($@"UPDATE [ApplicationUser] SET
                     [UserName] = @{nameof(ApplicationUser.UserName)},
+                    [Name] = @{nameof(ApplicationUser.Name)},
                     [NormalizedUserName] = @{nameof(ApplicationUser.NormalizedUserName)},
                     [Email] = @{nameof(ApplicationUser.Email)},
                     [NormalizedEmail] = @{nameof(ApplicationUser.NormalizedEmail)},
@@ -169,6 +171,7 @@ namespace RadarCompetencias.Data
                 await connection.OpenAsync(cancellationToken);
                 var normalizedName = roleName.ToUpper();
                 var roleId = await connection.ExecuteScalarAsync<int?>($"SELECT [Id] FROM [ApplicationRole] WHERE [NormalizedName] = @{nameof(normalizedName)}", new { normalizedName });
+
                 if (!roleId.HasValue)
                     roleId = await connection.ExecuteAsync($"INSERT INTO [ApplicationRole]([Name], [NormalizedName]) VALUES(@{nameof(roleName)}, @{nameof(normalizedName)})",
                         new { roleName, normalizedName });

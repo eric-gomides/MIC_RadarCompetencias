@@ -5,8 +5,12 @@ namespace RadarCompetencias.Models.UsersViewModels
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "Nome")]
+        [Display(Name = "Nome Completo")]
         public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Nome de usuário")]
+        public string UserName { get; set; }
 
         [Required]
         [EmailAddress]
