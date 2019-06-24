@@ -144,7 +144,12 @@ namespace RadarCompetencias.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(
+                    userName: model.Email,
+                    password: model.Password,
+                    isPersistent: false,
+                    lockoutOnFailure: false
+                    );
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Usuário logado.");

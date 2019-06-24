@@ -77,7 +77,7 @@ namespace RadarCompetencias.Data
             {
                 await connection.OpenAsync(cancellationToken);
                 return await connection.QuerySingleOrDefaultAsync<ApplicationUser>($@"SELECT * FROM [ApplicationUser]
-                    WHERE [NormalizedUserName] = @{nameof(normalizedUserName)}", new { normalizedUserName });
+                    WHERE [NormalizedEmail] = @{nameof(normalizedUserName)}", new { normalizedUserName });
             }
         }
 
