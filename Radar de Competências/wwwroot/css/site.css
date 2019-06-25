@@ -1,5 +1,17 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
+html, body
+{
+    height:100%;
+    width:100%;
+    background-color:#ffffff;
+    color:#000000;
+    font-weight:normal;
+    font-family:"Segoe UI" , "Segoe" , "SegoeUI-Regular-final", Tahoma, Helvetica, Arial, sans-serif;
+    min-width:500px;
+    -ms-overflow-style:-ms-autohiding-scrollbar;
+}
+
 body {
     padding-top: 50px;
     padding-bottom: 20px;
@@ -34,4 +46,87 @@ body {
     .carousel-caption {
         display: none;
     }
+}
+
+/* Theme layout styles */
+
+#fullPage, #brandingWrapper
+{
+    width:100%;
+    height:100%;
+    background-color:inherit;
+}
+#brandingWrapper
+{
+    background-color:#4488dd;
+}
+#branding
+{       
+    /* A background image will be added to the #branding element at run-time once the illustration image is configured in the theme. 
+       Recommended image dimensions: 1420x1200 pixels, JPG or PNG, 200 kB average, 500 kB maximum. */
+    height:100%;
+    margin-right:500px; margin-left:0px;
+    background-color:inherit;
+    background-repeat: no-repeat;
+    background-size:cover;
+    -webkit-background-size:cover;
+    -moz-background-size:cover;
+    -o-background-size:cover;
+}
+#contentWrapper
+{
+    position:relative;
+    width:450px;    
+    height:100%;
+    overflow:auto;
+    background-color:#ffffff; /* for IE7 */
+    margin-left:760px; margin-right:0px; margin-bottom:-50px; margin-top:-50px;
+}
+#content
+{
+    min-height:100%;
+    height: auto !important;
+    margin:auto auto auto auto;
+    padding:0px 0px 0px 50px;
+}
+#header
+{
+    font-size:2em;
+    font-weight:lighter;
+    font-family:"Segoe UI Light" , "Segoe" , "SegoeUI-Light-final", Tahoma, Helvetica, Arial, sans-serif;
+    padding-top: 70px;
+    margin-bottom:60px;
+    min-height:100px;
+    overflow:hidden;
+}
+#header img
+{
+    /* Logo image recommended dimension: 60x60 (square) or 350X35 (elongated), 4 kB average, 10 kB maximum. Transparent PNG strongly recommended. */
+    width:auto;
+    height:auto;
+}
+#workArea, #header, #workAreaR
+{
+    word-wrap:break-word;
+    width:350px;
+}
+#workArea
+{
+    margin-bottom:130px;
+    margin-top:-30px;
+
+}
+#workAreaR
+{
+    margin-bottom:30px;
+    margin-top:-60px;
+
+}
+#footer
+{
+    height:0px;
+    padding:50px 0px 0px 0px;
+    position:relative;
+    color:#666666;
+    font-size:0.78em;
 }
