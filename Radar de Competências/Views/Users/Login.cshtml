@@ -7,27 +7,33 @@
     ViewData["Title"] = "Entrar";
 }
 
-<h2>@ViewData["Title"]</h2>
-<div class="row">
-    <div class="col-md-4">
+<style>
+body { 
+    background-image: url("https://fs.bhs.com.br/adfs/portal/illustration/illustration.png?id=B59E45CA2818FC017577B87793443AC25F43C3EF930402E6806D417DC39243AE");
+}
+</style>
+<div id="contentWrapper" class="float">
+            <div id="content">
+                <div id="header">
+                    <img class="logoImage" src="https://fs.bhs.com.br/adfs/portal/logo/logo.png?id=4133C6979F0A6E237F2F723A80B219168E7376AABDE3EC15566DDE6697850503" alt="BHS"/>
+                </div>
+    <div id="workArea" class="col-md-4">
         <section>
             <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                 <h4>Digite seu usuário e senha de acesso</h4>
-                <hr />
+                <hr/>
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Email">Email</label>
                     <input asp-for="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Password">Senha</label>
                     <input asp-for="Password" class="form-control" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-default">Entrar</button>
+                        <button type="submit" class="btn btn-enter">Entrar</button>
                     </div>
                     <div class="form-group">
                         <p>
@@ -36,6 +42,11 @@
                     </div>
             </form>
         </section>
+        <div id="footer">
+            <p>&copy; 2019 - Radar de Competências</p>
+            <div id="footerLinks" class="floatReverse">
+            <div><a id="home" class="pageLink" href="https://www.bhs.com.br/">BHS Site</a></div>
+        </div>
     </div>
 </div>
 

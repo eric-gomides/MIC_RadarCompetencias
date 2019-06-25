@@ -3,43 +3,50 @@
     ViewData["Title"] = "Cadastrar";
 }
 
-<h2>@ViewData["Title"]</h2>
+<style>
+body { 
+    background-image: url("https://fs.bhs.com.br/adfs/portal/illustration/illustration.png?id=B59E45CA2818FC017577B87793443AC25F43C3EF930402E6806D417DC39243AE");
+}
+</style>
 
-<div class="row">
-    <div class="col-md-4">
+<div id="contentWrapper" class="float">
+            <div id="content">
+                <div id="header">
+                    <img class="logoImage" src="https://fs.bhs.com.br/adfs/portal/logo/logo.png?id=4133C6979F0A6E237F2F723A80B219168E7376AABDE3EC15566DDE6697850503" alt="BHS"/>
+                </div>
+    <div id="workAreaR" class="col-md-4">
+        <section>
         <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
             <h4>Criar uma nova conta</h4>
-            <hr />
+            <hr/>
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="UserName">Nome de usu&aacute;rio</label>
-                <input asp-for="UserName" class="form-control" />
+                <input asp-for="Name" class="form-control" placeholder="Nome completo"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="UserName" class="form-control" placeholder="Nome de usuário"/>
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Email">Email</label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" placeholder="email@exemplo.com"/>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Name">Nome Completo</label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password">Senha</label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" class="form-control" placeholder="Senha"/>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ConfirmPassword">Confirmar senha</label>
-                <input asp-for="ConfirmPassword" class="form-control" />
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirmar senha"/>
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-default">Cadastrar</button>
+            <button type="submit" class="btn btn-enter">Cadastrar</button>
         </form>
-    </div>
+        </section>
+        <div id="footer">
+            <p>&copy; 2019 - Radar de Competências</p>
+        </div>
 </div>
 
 @section Scripts {
