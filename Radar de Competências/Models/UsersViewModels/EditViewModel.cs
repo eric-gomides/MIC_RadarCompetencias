@@ -8,7 +8,7 @@ namespace RadarCompetencias.Models.UsersViewModels
         [Display(Name = "Nome")]
         public string Name { get; set; }
 
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Email inválido.")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
