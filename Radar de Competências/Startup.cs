@@ -61,7 +61,11 @@ namespace RadarCompetencias
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager
+            )
         {
             if (env.IsDevelopment())
             {
@@ -86,6 +90,8 @@ namespace RadarCompetencias
                     name: "default",
                     template: "{controller=Users}/{action=Login}/{id?}");
             });
+
+            Inicializar.SeedUsers(userManager).Wait();
         }
     }
 }
