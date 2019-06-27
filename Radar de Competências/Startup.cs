@@ -64,7 +64,8 @@ namespace RadarCompetencias
         public void Configure(IApplicationBuilder app, 
             IHostingEnvironment env, 
             UserManager<ApplicationUser> userManager,
-            RoleManager<ApplicationRole> roleManager
+            RoleManager<ApplicationRole> roleManager,
+            IConfiguration configuration
             )
         {
             if (env.IsDevelopment())
@@ -91,6 +92,7 @@ namespace RadarCompetencias
                     template: "{controller=Users}/{action=Login}/{id?}");
             });
 
+            Inicializar.SeedRoles(configuration).Wait();
             Inicializar.SeedUsers(userManager).Wait();
         }
     }
